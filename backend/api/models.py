@@ -16,9 +16,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     city = models.CharField(blank=True, max_length=255)
     zip = models.CharField(blank=True, max_length=10)
     role = models.CharField(default='', max_length=10)
-    locked = models.BooleanField(blank=True)
-
+    locked = models.BooleanField(default=True)
     USERNAME_FIELD = 'id'
+
+
+class UserPaymentDetails(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='payment_details')
+    bank_code = models.TextField()
+    iban = models.TextField()
+    bank_number = models.TextField()
 
 
 class UserSettings(models.Model):
