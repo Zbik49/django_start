@@ -4,18 +4,18 @@
  * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operators';
 
-import { NbToastrService } from '@nebular/theme';
+import {NbToastrService} from '@nebular/theme';
 
-import { UserData, User } from '../../../@core/interfaces/common/users';
-import { EMAIL_PATTERN, NUMBERS_PATTERN } from '../../../@auth/components';
+import {UserData, User} from '../../../@core/interfaces/common/users';
+import {EMAIL_PATTERN, NUMBERS_PATTERN} from '../../../@auth/components';
 
 
 export enum UserFormMode {
@@ -77,6 +77,10 @@ export class UserComponent implements OnInit, OnDestroy {
       login: this.fb.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]),
       age: this.fb.control('', [Validators.required, Validators.min(1),
         Validators.max(120), Validators.pattern(NUMBERS_PATTERN)]),
+      locked: this.fb.control(''),
+      bank_code: this.fb.control(''),
+      iban: this.fb.control(''),
+      bank_number: this.fb.control(''),
       email: this.fb.control('', [
         Validators.required,
         Validators.pattern(EMAIL_PATTERN),
@@ -123,6 +127,10 @@ export class UserComponent implements OnInit, OnDestroy {
           lastName: user.lastName ? user.lastName : '',
           login: user.login ? user.login : '',
           age: user.age ? user.age : '',
+          locked: user.locked ? user.locked : '',
+          bank_code: user.bank_code ? user.bank_code : '',
+          iban: user.iban ? user.iban : '',
+          bank_number: user.bank_number ? user.bank_number : '',
           email: user.email,
           address: {
             street: (user.address && user.address.street) ? user.address.street : '',
@@ -138,7 +146,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
 
   convertToUser(value: any): User {
-    const user: User = value;
+    value.locked = value.locked || false;
+    const user: User = value
     return user;
   }
 

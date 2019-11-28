@@ -11,36 +11,39 @@
       <div class="form-group">
         <label for="firstName">First Name</label>
         <input nbInput id="firstName" formControlName="firstName"
-          [status]="(firstName?.hasError('minLength') || firstName?.hasError('maxLength')) ? 'danger' : 'primary'"
-          class="form-control" placeholder="Last Name">
+               [status]="(firstName?.hasError('minLength') || firstName?.hasError('maxLength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Last Name">
         <ngx-validation-message label="First Name" [showMinLength]="firstName?.hasError('minLength')"
-          [showMaxLength]="firstName?.hasError('maxLength')" minLength=3 maxLength=20></ngx-validation-message>
+                                [showMaxLength]="firstName?.hasError('maxLength')" minLength=3
+                                maxLength=20></ngx-validation-message>
       </div>
 
       <div class="form-group">
         <label for="lastName">Last Name</label>
         <input nbInput id="lastName" formControlName="lastName"
-          [status]="(lastName?.hasError('minLength') || lastName?.hasError('maxLength')) ? 'danger' : 'primary'"
-          class="form-control" placeholder="Last Name">
+               [status]="(lastName?.hasError('minLength') || lastName?.hasError('maxLength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Last Name">
         <ngx-validation-message label="Last Name" [showMinLength]="lastName?.hasError('minLength')"
-          [showMaxLength]="lastName?.hasError('maxLength')" minLength=3 maxLength=20></ngx-validation-message>
+                                [showMaxLength]="lastName?.hasError('maxLength')" minLength=3
+                                maxLength=20></ngx-validation-message>
       </div>
 
       <div class="form-group">
         <label for="inputLogin">Login</label>
         <input nbInput id="inputLogin" formControlName="login"
-          [status]="(login?.errors?.required || login?.hasError('minLength') || login?.hasError('maxLength')) ? 'danger' : 'primary'"
-          class="form-control" placeholder="Login">
+               [status]="(login?.errors?.required || login?.hasError('minLength') || login?.hasError('maxLength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Login">
         <ngx-validation-message label="Login" [showMinLength]="login?.hasError('minLength')"
-          [showMaxLength]="login?.hasError('maxLength')" [showRequired]="login?.errors?.required" minLength=6
-          maxLength=20></ngx-validation-message>
+                                [showMaxLength]="login?.hasError('maxLength')" [showRequired]="login?.errors?.required"
+                                minLength=6
+                                maxLength=20></ngx-validation-message>
       </div>
 
       <div class="form-group">
         <label for="inputAge">Age</label>
         <input nbInput id="inputAge" formControlName="age"
-          [status]="(age?.errors?.min || age?.errors?.max || age?.hasError('pattern')) ? 'danger' : 'primary'"
-          class="form-control" placeholder="Age">
+               [status]="(age?.errors?.min || age?.errors?.max || age?.hasError('pattern')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Age">
         <ngx-validation-message label="Age" [showMin]="age?.errors?.min" [showMax]="age?.errors?.max"
                                 [showRequired]="age?.errors?.required"
                                 [showPattern]="age?.hasError('pattern')" min=1 max=120></ngx-validation-message>
@@ -49,10 +52,17 @@
       <div class="form-group">
         <label for="inputEmail">Email</label>
         <input nbInput id="inputEmail" formControlName="email"
-          [status]="(email?.errors?.required || email?.hasError('pattern')) ? 'danger' : 'primary'" class="form-control"
-          placeholder="Email">
+               [status]="(email?.errors?.required || email?.hasError('pattern')) ? 'danger' : 'primary'"
+               class="form-control"
+               placeholder="Email">
         <ngx-validation-message label="Email" [showPattern]="email?.hasError('pattern')"
-          [showRequired]="email?.errors?.required" min=1 max=120></ngx-validation-message>
+                                [showRequired]="email?.errors?.required" min=1 max=120></ngx-validation-message>
+      </div>
+      <div class="form-group">
+        <label for="inputLocked">Locked</label>
+        <input type="checkbox" id="inputLocked" formControlName="locked"
+               [value]="locked"
+               class="form-control">
       </div>
 
       <div class="form-group" formGroupName="address">
@@ -69,10 +79,23 @@
         <label for="inputZipCode">Zip Code</label>
         <input nbInput class="form-control" id="inputZipCode" placeholder="Zip Code" formControlName="zipCode">
       </div>
+      <div class="form-group">
+        <label for="inputBankCode">Bank Code</label>
+        <input nbInput class="form-control" id="inputBankCode" placeholder="Bank code" formControlName="bank_code">
+      </div>
+      <div class="form-group">
+        <label for="inputIban">IBAN</label>
+        <input nbInput class="form-control" id="inputIban" placeholder="IBAN" formControlName="iban">
+      </div>
+      <div class="form-group">
+        <label for="inputBankNumber">Bank number</label>
+        <input nbInput class="form-control" id="inputBankNumber" placeholder="Bank number"
+               formControlName="bank_number">
+      </div>
     </div>
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton status="primary" [disabled]="!userForm.valid" (click)="save()" hero>Submit</button>
+    <button nbButton status="primary" (click)="save()" hero>Submit</button>
     <button nbButton status="info" (click)="back()" hero>Back</button>
   </nb-card-footer>
 </nb-card>
