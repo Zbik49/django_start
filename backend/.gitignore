@@ -1,0 +1,7 @@
+.idea/
+bundle_env/
+*.py[cod]
+__pycache__/
+*.log
+db.sqlite3
+*_initial.py

@@ -1,0 +1,15 @@
+{
+  "APP_NAME": "Backend Bundle App",
+  "FRONT_END_DOMAIN": "http://localhost:4200",
+  "SQLALCHEMY_TRACK_MODIFICATIONS": "False",
+  "LOG_FILE": "api.log",
+  "PASSWORD_RECOVERY_SECRET": "password recovery secret here",
+  "PASSWORD_RECOVERY_TTL": 86400,
+  "SMTP_SETTINGS": {
+    "DEBUG": "True",
+    "HOST": "smtp.dreamhost.com",
+    "PORT": "587",
+    "PASSWORD": "top_secr3t",
+    "FROM": "noreply@email.com"
+  }
+}
