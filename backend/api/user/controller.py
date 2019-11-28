@@ -6,7 +6,7 @@ import json
 import hashlib
 from django.conf import settings
 from ..email import BaseEmailClient
-from ..models import User, UserSettings
+from ..models import User, UserSettings, UserPaymentDetails
 
 encryptor = None
 
@@ -48,7 +48,7 @@ def check_password(user, password):
 
 
 def create_user(email, password, fullname, login='', age=18, street='',
-                city='', zip='', role='user'):
+                city='', zip='', role='user', locked=False, bank_code='', iban='', bank_number=''):
     res = fullname.split(' ')
     first_name = '' if len(res) == 1 else res[0]
     last_name = res[0] if len(res) == 1 else ' '.join(res[1:])
@@ -62,17 +62,23 @@ def create_user(email, password, fullname, login='', age=18, street='',
                 street=street,
                 city=city,
                 zip=zip,
-                role=role)
+                role=role,
+                locked=locked)
 
     user_settings = UserSettings(id=user.id,
                                  theme='default')
     user.save()
+    user_payment_details = UserPaymentDetails(user=User.objects.get(email=email), bank_code=bank_code, iban=iban,
+                                              bank_number=bank_number)
+
     user_settings.save()
+    user_payment_details.save()
 
 
 def update_user_password(user, new_password):
     user.password = generate_password_hash(new_password)
-    user.objects.filter(email=user.email).update(password=user.password)
+    user.objects.filter(email=user.
+                        email).update(password=user.password)
     user.save()
 
 
@@ -81,7 +87,7 @@ def check_user_exists(email):
 
 
 def update_user(user):
-    user.objects.filter(email=user.email).update(password=user.password,
+    User.objects.filter(email=user.email).update(password=user.password,
                                                  first_name=user.first_name,
                                                  last_name=user.last_name,
                                                  login=user.login,
@@ -89,8 +95,11 @@ def update_user(user):
                                                  street=user.street,
                                                  city=user.city,
                                                  zip=user.zip,
-                                                 role=user.role)
-    user.save()
+                                                 role=user.role,
+                                                 locked=user.locked)
+    return User.objects.get(email=user.email).payment_details.update(bank_code=user.bank_code,
+                                                                     bank_number=user.bank_number,
+                                                                     iban=user.iban)
 
 
 def generate_password_hash(password):

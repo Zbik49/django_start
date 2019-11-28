@@ -1,9 +1,12 @@
 import logging
+
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
+from rest_framework.viewsets import ModelViewSet
 
+from ..serializers import UserPaymentDetailsSerializer
 from ..common import Common
 from .controller import get_user_by_id, update_user, \
     get_user_settings_by_id
@@ -26,18 +29,25 @@ class UserView(APIView):
     @staticmethod
     def put(request):
         user = get_user_by_id(request.user.id)
-
+        if user.locked:
+            return JsonResponse(
+                {'status': 'false', "id": 844,
+                 'message': "The user settings are locked. Please unlock it to change it."},
+                status=403)
         data = common_methods.get_request_data(request)
         user.email = data['email']
         user.first_name = data['firstName']
         user.last_name = data['lastName']
-        user.login = data['userName']
+        user.login = data['login']
         user.age = data['age']
         user.street = data['address']['street']
         user.city = data['address']['city']
         user.zip = data['address']['zipCode']
         user.role = data['role']
-
+        user.locked = data['locked']
+        user.bank_code = data['bank_code']
+        user.iban = data['iban']
+        user.bank_number = data['bank_number']
         update_user(user)
 
         user.theme = get_user_settings_by_id(
@@ -76,6 +86,12 @@ def _serialize_user(user):
         'userName': user.login,
         'age': user.age,
         'role': user.role,
+        'locked': user.locked,
+        'userPaymentDetails': {
+            'bank_code': user.bank_code,
+            'iban': user.iban,
+            'bank_number': user.bank_number
+        },
         'settings': {
             'themeName': user.theme
         },
@@ -85,3 +101,7 @@ def _serialize_user(user):
             'zipCode': user.zip,
         }
     }
+
+
+class UserPaymentDetailsViewSet(ModelViewSet):
+    serializer_class = UserPaymentDetailsSerializer
