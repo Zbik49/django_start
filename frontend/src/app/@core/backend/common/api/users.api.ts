@@ -54,7 +54,7 @@ export class UsersApi {
   }
 
   add(item: any): Observable<any> {
-    return this.api.post(this.apiController, item);
+    return this.api.put(`${this.apiController}/current`, item);
   }
 
   updateCurrent(item: any): Observable<any> {
